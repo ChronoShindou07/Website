@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
+// Removed THREE and OrbitControls imports as simulation is no longer used
+// import * as THREE from 'three';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // Firebase imports
 import { initializeApp } from 'firebase/app';
@@ -25,7 +26,7 @@ const Lightbulb = (props) => (
 );
 const Briefcase = (props) => (
   <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-briefcase">
-    <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
   </svg>
 );
 const Mail = (props) => (
@@ -62,7 +63,7 @@ const WebNovel = (props) => (
 
 // Custom Science/Flask Icon (for materials engineer theme)
 const Flask = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-flask">
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-flask">
     <path d="M14.4 14.4 17 21l-7-3-2.6-6.6a2 2 0 0 0-1.8-1.3l-6.4-.7a2 2 0 0 0-1.6 3.4l6.4 6.4"/>
     <path d="M17 21h-2l-2-2m2-2h2m-2 0 2-2m-2 0v-2m-2-2v-2"/>
     <path d="M11 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2z"/>
@@ -115,6 +116,61 @@ const FileText = (props) => (
     <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
   </svg>
 );
+
+// Original icons for Expertise section
+const Laptop = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-laptop">
+    <path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.91 1.45H3.63a1 1 0 0 1-.91-1.45L4 16m16 0a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16Z"/>
+  </svg>
+);
+
+const Wrench = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wrench">
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-2.53 2.53a1 1 0 0 0-1.4 0L6.3 14.7a1 1 0 0 0 0-1.4l1.6-1.6a6 6 0 0 1 7.94-7.94l-2.53-2.53z"/>
+    <path d="M12.6 12.6 9 16.2"/>
+    <path d="M18.2 18.2 14.6 14.6"/>
+  </svg>
+);
+
+// Custom Microscope Icon (simple design)
+const Microscope = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-microscope">
+    <path d="M6 18h4"/><path d="M10 21v-3"/><path d="M10 3v5"/><path d="M14 3v5"/><path d="M18 18h-4"/><path d="M14 21v-3"/><path d="M18 9h-4"/><path d="M14 12h-4"/><path d="M10 15v-3"/><path d="M6 9h4"/><path d="M12 2v20"/>
+    <path d="M12 18a6 6 0 0 0 6-6V9a6 6 0 0 0-6-6Z"/>
+  </svg>
+);
+
+
+// Lazy load components (COMMENTED OUT FOR COMPILATION FIX)
+// const About = lazy(() => import('./About'));
+// const Skills = lazy(() => import('./Skills'));
+// const Publications = lazy(() => import('./Publications'));
+// const Contact = lazy(() => import('./Contact'));
+
+
+// Animated Content Wrapper for entrance animations
+const AnimatedContent = ({ children, delay = 0, className = '' }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation after a short delay, regardless of intersection
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  return (
+    <div
+      className={`${className} transition-all duration-700 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20' // Increased translate-y for more noticeable effect
+      }`}
+    >
+      {children}
+    </div>
+  );
+};
 
 
 // Navbar Component
@@ -181,154 +237,6 @@ const NavLink = ({ icon, text, pageId, isMobile, onClick }) => (
   </button>
 );
 
-// Animated Content Wrapper for entrance animations
-const AnimatedContent = ({ children, delay = 0, className = '' }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, delay);
-    return () => clearTimeout(timer);
-  }, [delay]);
-
-  return (
-    <div
-      className={`${className} transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-      }`}
-    >
-      {children}
-    </div>
-  );
-};
-
-// Material Sciences 3D Simulation Background Component (Existing background)
-const MaterialSimulationBackground = () => {
-  const mountRef = useRef(null);
-  const rendererRef = useRef(null);
-  const controlsRef = useRef(null);
-
-  useEffect(() => {
-    const currentMount = mountRef.current;
-    if (!currentMount) return;
-
-    const scene = new THREE.Scene();
-    scene.background = null;
-
-    const camera = new THREE.PerspectiveCamera(75, currentMount.clientWidth / currentMount.clientHeight, 0.1, 1000);
-    camera.position.z = 10;
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-    currentMount.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
-    controls.enablePan = false;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-    controlsRef.current = controls;
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(0, 5, 5).normalize();
-    scene.add(directionalLight);
-
-    const atomGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-    const bondGeometry = new THREE.CylinderGeometry(0.08, 0.08, 1, 16);
-
-    const atomMaterial1 = new THREE.MeshPhongMaterial({ color: 0x64b5f6, flatShading: true });
-    const atomMaterial2 = new THREE.MeshPhongMaterial({ color: 0x81c784, flatShading: true });
-    const bondMaterial = new THREE.MeshPhongMaterial({ color: 0x90a4ae, flatShading: true });
-
-    const latticeGroup = new THREE.Group();
-    const gridSize = 2;
-    const spacing = 2;
-
-    for (let x = -gridSize; x <= gridSize; x++) {
-      for (let y = -gridSize; y <= gridSize; y++) {
-        for (let z = -gridSize; z <= gridSize; z++) {
-          const xPos = x * spacing;
-          const yPos = y * spacing;
-          const zPos = z * spacing;
-
-          const atom1 = new THREE.Mesh(atomGeometry, atomMaterial1);
-          atom1.position.set(xPos, yPos, zPos);
-          latticeGroup.add(atom1);
-
-          const atom2 = new THREE.Mesh(atomGeometry, atomMaterial2);
-          atom2.position.set(xPos + spacing / 2, yPos + spacing / 2, zPos + spacing / 2);
-          latticeGroup.add(atom2);
-
-          const bond1 = new THREE.Mesh(bondGeometry, bondMaterial);
-          bond1.position.set(xPos + spacing / 4, yPos + spacing / 4, zPos + spacing / 4);
-          bond1.lookAt(atom2.position);
-          bond1.rotation.x += Math.PI / 2;
-          bond1.scale.y = atom1.position.distanceTo(atom2.position);
-          latticeGroup.add(bond1);
-
-          const neighbors = [
-            [spacing, 0, 0], [0, spacing, 0], [0, 0, spacing],
-            [-spacing, 0, 0], [0, -spacing, 0], [0, 0, -spacing]
-          ];
-          neighbors.forEach(offset => {
-            const neighborPos = new THREE.Vector3(xPos + offset[0], yPos + offset[1], zPos + offset[2]);
-            const bond = new THREE.Mesh(bondGeometry, bondMaterial);
-            bond.position.copy(atom1.position).add(neighborPos).divideScalar(2);
-            bond.lookAt(neighborPos);
-            bond.rotation.x += Math.PI / 2;
-            bond.scale.y = atom1.position.distanceTo(neighborPos);
-            if (bond.scale.y > 0.1) {
-                latticeGroup.add(bond);
-            }
-          });
-        }
-      }
-    }
-    scene.add(latticeGroup);
-
-    const animate = () => {
-      requestAnimationFrame(animate);
-      controls.update();
-      renderer.render(scene, camera);
-    };
-
-    window.onload = function() {
-      animate();
-    };
-
-    const handleResize = () => {
-      const width = currentMount.clientWidth;
-      const height = currentMount.clientHeight;
-      renderer.setSize(width, height);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.onload = null;
-      if (rendererRef.current) {
-        rendererRef.current.dispose();
-        currentMount.removeChild(rendererRef.current.domElement);
-      }
-      if (controlsRef.current) {
-        controlsRef.current.dispose();
-      }
-      scene.clear();
-    };
-  }, []);
-
-  return (
-    <div ref={mountRef} className="absolute inset-0 w-full h-full z-0 overflow-hidden">
-      {/* Canvas will be appended here by Three.js */}
-    </div>
-  );
-};
 
 // Image Carousel Component for the Hero Section
 const ImageCarousel = ({ images, currentIndex }) => {
@@ -440,8 +348,8 @@ const Hero = ({ setCurrentPage }) => {
         <section id="hero" className="relative w-full min-h-screen bg-gray-950">
             {/* SECTION 1: Main Hero Content - This is where the background should be */}
             <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-                {/* 3D Simulation Background (full screen, spans this div) */}
-                <MaterialSimulationBackground />
+                {/* Removed MaterialSimulationBackground */}
+                {/* <MaterialSimulationBackground /> */}
 
                 {/* Image Carousel (full screen, behind content, spans this div) */}
                 <div className="absolute inset-0 z-0">
@@ -475,7 +383,7 @@ const Hero = ({ setCurrentPage }) => {
                 <AnimatedContent delay={0} className="w-full relative z-10"> {/* Added relative z-10 to keep content on top */}
                     <div className="bg-gray-800 bg-opacity-80 p-8 md:p-12 rounded-xl max-w-5xl mx-auto shadow-2xl backdrop-blur-sm text-white text-center border border-gray-700">
                         <AnimatedContent delay={100}>
-                            <p className="text-lg text-blue-300 font-semibold mb-2 font-inter">Materials Sciences Engineer</p>
+                            <p className="text-lg text-blue-300 font-semibold mb-2 font-inter">Materials Sciences PhD student</p>
                         </AnimatedContent>
                         <AnimatedContent delay={200}>
                             <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-4 font-inter text-white">
@@ -484,7 +392,7 @@ const Hero = ({ setCurrentPage }) => {
                         </AnimatedContent>
                         <AnimatedContent delay={300}>
                             <p className="text-xl md:text-2xl mb-8 font-inter text-gray-200">
-                                I am <span className="font-semibold text-white">Your Name</span>, passionate about developing and characterizing advanced materials for a sustainable future.
+                                I am <span className="font-semibold text-white">Golu Gehlot</span>, passionate about developing and characterizing advanced materials for a sustainable future.
                             </p>
                         </AnimatedContent>
                         <AnimatedContent delay={400}>
@@ -508,7 +416,7 @@ const Hero = ({ setCurrentPage }) => {
             </div>
 
             {/* SECTION 2: Brief Expertise & Research Highlights (on homepage) */}
-            <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+            <div className="relative z-10 min-h-screen flex items-center justify-center p-4 bg-gray-950">
                 <AnimatedContent delay={0} className="w-full">
                     <div className="p-6 max-w-6xl mx-auto rounded-xl shadow-2xl bg-gray-800 bg-opacity-95 backdrop-blur-md border border-gray-700">
                         <AnimatedContent delay={100}>
@@ -539,7 +447,7 @@ const Hero = ({ setCurrentPage }) => {
                                         <Flask className="w-6 h-6 mr-2" /> Key Expertise
                                     </h3>
                                     <p className="text-gray-200 mb-4 font-inter">
-                                        Proficient in <span className="font-semibold">characterization techniques</span> (SEM, XRD, TEM) and computational modeling (DFT, MD) to predict and analyze material behavior.
+                                        Proficient in <span className="font-semibold">characterization techniques</span> (SEM, TEM, FTIR, Raman Spectroscopy, XRD, EBSD, EDS, Mechanical testing (Tensile, Creep, and Fatigue), Optical microscopy, DSC) and <span className="font-semibold">computational modeling</span> (Python) to predict and analyze material behavior.
                                     </p>
                                     <button
                                         className="inline-flex items-center text-green-400 hover:text-green-300 transition-colors duration-200 font-semibold"
@@ -554,7 +462,7 @@ const Hero = ({ setCurrentPage }) => {
             </div>
 
             {/* SECTION 3: Brief About Me (on homepage) */}
-            <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+            <div className="relative z-10 min-h-screen flex items-center justify-center p-4 bg-gray-950">
                 <AnimatedContent delay={0} className="w-full">
                     <div className="p-6 max-w-6xl mx-auto rounded-xl shadow-2xl bg-gray-800 bg-opacity-95 backdrop-blur-md border border-gray-700">
                         <AnimatedContent delay={100}>
@@ -568,22 +476,24 @@ const Hero = ({ setCurrentPage }) => {
                                     src="https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo" // Placeholder for your actual photo
                                     alt="Your Photo"
                                     className="rounded-lg shadow-md w-full h-auto object-cover"
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo"; }}
+                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"; }}
                                 />
                             </AnimatedContent>
                             <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 font-inter space-y-3">
                                 <p>
-                                    Hello! I'm Your Name, a dedicated Materials Sciences Engineer with X years of experience
-                                    at the intersection of physics, chemistry, and engineering. My work focuses on understanding
+                                    Hello! I'm Golu Gehlot, a dedicated Materials Sciences PhD student, at IISc Bangalore.
+                                    I have done my B.tech from MANIT bhopal,2024. My work focuses on understanding
                                     the fundamental properties of materials and designing novel ones for advanced applications.
                                 </p>
                                 <p>
-                                    My expertise lies in areas such as <span className="font-semibold text-indigo-300">nanomaterials, advanced composites, and sustainable materials development</span>.
-                                    I thrive on experimental design, data analysis, and using computational tools to predict material behavior.
+                                    My expertise lies in areas such as <span className="font-semibold text-indigo-300">Deformation mechanism,
+                                    Damage mechanism, Microstructural studies, Mechanical testing (Tensile, creep, and fatigue), and High
+                                     temperature testing </span>.
+
                                 </p>
                                 <p>
                                     Beyond the lab, I enjoy exploring new hiking trails,
-                                    reading sci-fi novels, and contributing to open-source science projects.
+                                    reading sci-fi and fantasy novels, computer gaing, football and contributing to open-source science projects.
                                 </p>
                                 <button
                                     className="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors duration-200 font-semibold mt-4"
@@ -680,32 +590,36 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
           </AnimatedContent>
           <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 space-y-4 font-inter">
             <p>
-              Hello! I'm Your Name, a dedicated Materials Sciences Engineer with X years of experience
-              at the intersection of physics, chemistry, and engineering. My work focuses on understanding
-              the fundamental properties of materials and designing novel ones for advanced applications.
+             Hello! I'm Golu Gehlot, a dedicated Materials Sciences PhD student, at IISc Bangalore.
+             I have done my B.tech from MANIT bhopal,2024. My work focuses on understanding
+             the fundamental properties of materials and designing novel ones for advanced applications.
             </p>
             <p>
-              My expertise lies in areas such as <span className="font-semibold text-indigo-300">nanomaterials, advanced composites, and sustainable materials development</span>.
-              I thrive on experimental design, data analysis, and using computational tools to predict material behavior.
+             My expertise lies in areas such as <span className="font-semibold text-indigo-300">Deformation mechanism,
+              Damage mechanism, Microstructural studies, Mechanical testing (Tensile, creep, and fatigue), and High
+              temperature testing </span>.
             </p>
             <p>
-              Beyond the lab, I enjoy exploring new hiking trails,
-              reading sci-fi novels, and contributing to open-source science projects.
+             Beyond the lab, I enjoy exploring new hiking trails,
+             reading sci-fi and fantasy novels, computer gaing, football and contributing to open-source science projects.
             </p>
             <div className="pt-4 flex space-x-4">
-              <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://github.com/ChronoShindou07" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Github className="w-8 h-8" />
               </a>
-              <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="https://www.linkedin.com/in/golu-gehlot-a16b70216/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Linkedin className="w-8 h-8" />
               </a>
-              <a href="https://discord.gg/yourinvite" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              {/* Discord Link - Verify this URL is active and does not expire */}
+              <a href="https://discord.gg/zADYUgB5" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Discord className="w-8 h-8" />
               </a>
-              <a href="https://yourwebnovel.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+              {/* Webnovel Link - Verify this URL is correct */}
+              <a href="https://www.webnovel.com/profile/4320276697" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <WebNovel className="w-8 h-8" />
               </a>
-              <a href="https://www.superprof.co.in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+              {/* Superprof Link - Verify this URL is correct */}
+              <a href="https://www.superprof.co.in/dashboard.html/my-listings/listing/10380797" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <Superprof className="w-8 h-8" />
               </a>
             </div>
@@ -723,8 +637,9 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
               You can learn more about our research and projects here:
             </p>
             <div className="flex justify-center mt-4">
+              {/* Lab Website Link - Verify this URL is correct */}
               <a
-                href="https://your-lab-group-website.com" // Replace with your actual lab group website URL
+                href="https://sites.google.com/view/ankurskchauhan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
@@ -847,29 +762,33 @@ const Skills = () => {
   const categories = [
     {
       name: "Material Synthesis",
-      skills: ["Thin Film Deposition (PVD, CVD)", "Nanomaterial Synthesis (Hydrothermal, Sol-gel)", "Polymerization", "Composite Fabrication"],
-      icon: "🧪"
+      skills: ["Powder Metallurgy", "Casting", "Heat Treatment"],
+      icon: <Flask className="w-20 h-20 text-blue-400" />, // Reverted to Flask icon
+      alt: "Material Synthesis Icon"
     },
     {
       name: "Characterization",
-      skills: ["SEM/TEM", "XRD", "FTIR", "Raman Spectroscopy", "Mechanical Testing (Tensile, Hardness)", "Thermal Analysis (DSC, TGA)"],
-      icon: "🔬"
+      skills: ["SEM", "TEM", "FTIR", "Raman Spectroscopy", "XRD", "EBSD", "EDS", "Mechanical testing (Tensile, Creep, and Fatigue)", "Optical microscopy, DSC"],
+      icon: <Microscope className="w-20 h-20 text-green-400" />, // Reverted to Microscope icon
+      alt: "Characterization Icon"
     },
     {
       name: "Computational Materials",
-      skills: ["Density Functional Theory (DFT)", "Molecular Dynamics (MD)", "Phase-Field Modeling", "Finite Element Analysis (FEA)", "Python (NumPy, SciPy)"],
-      icon: "💻"
+      skills: ["Python"],
+      icon: <Laptop className="w-20 h-20 text-purple-400" />, // Reverted to Laptop icon
+      alt: "Computational Materials Icon"
     },
     {
       name: "Software & Tools",
-      skills: ["MATLAB", "OriginLab", "SolidWorks", "Abaqus", "Git/GitHub", "LaTeX"],
-      icon: "�️"
+      skills: ["MATLAB", "OriginLab", "LaTeX", "ImageJ", "OIM analysis", "Git/GitHub", "Profex"],
+      icon: <Wrench className="w-20 h-20 text-yellow-400" />, // Reverted to Wrench icon
+      alt: "Software & Tools Icon"
     }
   ];
 
   return (
     <section id="skills" className="py-20 px-6 bg-gray-800 min-h-screen pt-20">
-      <div className="container mx-auto max-w-5xl"> {/* Corrected: Removed comma */}
+      <div className="container mx-auto max-w-5xl">
         <AnimatedContent delay={100}>
           <h2 className="text-4xl font-bold text-center text-gray-100 mb-12 font-inter">
             My Expertise
@@ -879,14 +798,17 @@ const Skills = () => {
           {categories.map((category, index) => (
             <AnimatedContent key={index} delay={200 + index * 100}>
               <div className="bg-gray-900 p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 border border-gray-700">
-                <div className="text-5xl text-center mb-6">{category.icon}</div>
-                <h3 className="text-2xl font-semibold text-gray-100 mb-6 text-center font-inter">{category.name}</h3>
+                <div className="flex flex-col items-center mb-6"> {/* New flex container for icon and title */}
+                  {/* Circular background for the icon */}
+                  <div className="bg-gray-700 p-4 rounded-full mb-4 flex items-center justify-center">
+                    {category.icon} {/* Render the SVG icon directly */}
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-100 mt-4 font-inter">{category.name}</h3> {/* Removed mb-6, added mt-4 */}
+                </div>
                 <ul className="space-y-3 text-lg text-gray-200 font-inter">
                   {category.skills.map((skill, skillIndex) => (
-                    <li key={skillIndex} className="flex items-center">
-                      <svg className="w-5 h-5 text-blue-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                      </svg>
+                    <li key={skillIndex} className="flex items-start break-words">
+                      <span className="mr-2 text-blue-400 flex-shrink-0">•</span>
                       {skill}
                     </li>
                   ))}
@@ -1140,19 +1062,22 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} Your Name. All rights reserved.
         </p>
         <div className="flex justify-center space-x-6">
-          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+          <a href="https://github.com/ChronoShindou07" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
             <Github className="w-7 h-7" />
           </a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+          <a href="https://www.linkedin.com/in/golu-gehlot-a16b70216/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
             <Linkedin className="w-7 h-7" />
           </a>
-          <a href="https://discord.gg/yourinvite" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+          {/* Discord Link - Verify this URL is active and does not expire */}
+          <a href="https://discord.gg/zADYUgB5" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
             <Discord className="w-7 h-7" />
           </a>
-          <a href="https://yourwebnovel.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+          {/* Webnovel Link - Verify this URL is correct */}
+          <a href="https://www.webnovel.com/profile/4320276697" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
             <WebNovel className="w-7 h-7" />
           </a>
-          <a href="https://www.superprof.co.in/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
+          {/* Superprof Link - Verify this URL is correct */}
+          <a href="https://www.superprof.co.in/dashboard.html/my-listings/listing/10380797" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
             <Superprof className="w-7 h-7" />
           </a>
         </div>
@@ -1184,14 +1109,14 @@ const App = () => {
           } catch (e) {
             console.error("Error parsing __firebase_config:", e);
             // Fallback to placeholder if parsing fails
-            firebaseConfig = {
-              apiKey: "YOUR_API_KEY", // <--- REPLACE THIS WITH YOUR ACTUAL API KEY
-              authDomain: "YOUR_AUTH_DOMAIN",
-              projectId: "YOUR_PROJECT_ID",
-              storageBucket: "YOUR_STORAGE_BUCKET",
-              messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-              appId: "YOUR_FIREBASE_APP_ID" // <--- REPLACE THIS WITH YOUR ACTUAL APP ID
-            };
+       const firebaseConfig = {
+  apiKey: "AIzaSyC7WzyZ9GjVB7ckX4lv-r3GjAsfc9O3QQA",
+  authDomain: "website-8f5e2.firebaseapp.com",
+  projectId: "website-8f5e2",
+  storageBucket: "website-8f5e2.firebasestorage.app",
+  messagingSenderId: "902295170091",
+  appId: "1:902295170091:web:2c379c9f13ffc161728e6e"
+};
             console.warn("Falling back to placeholder Firebase config. Please ensure __firebase_config is valid JSON.");
           }
         } else {
@@ -1199,16 +1124,7 @@ const App = () => {
           // IMPORTANT: IF YOU ARE DEPLOYING THIS APP OUTSIDE OF THE CANVAS ENVIRONMENT,
           // YOU MUST MANUALLY REPLACE THESE PLACEHOLDER VALUES WITH YOUR ACTUAL FIREBASE PROJECT CONFIGURATION.
           // Go to your Firebase project settings -> "Your apps" -> Web app -> Config to find these values.
-          // Example:
-          // const firebaseConfig = {
-          //   apiKey: "AIzaSyC...",
-          //   authDomain: "your-project-id.firebaseapp.com",
-          //   projectId: "your-project-id",
-          //   storageBucket: "your-project-id.appspot.com",
-          //   messagingSenderId: "1234567890",
-          //   appId: "1:1234567890:web:abcdef123456"
-          // };
-        const firebaseConfig = {
+    const firebaseConfig = {
   apiKey: "AIzaSyC7WzyZ9GjVB7ckX4lv-r3GjAsfc9O3QQA",
   authDomain: "website-8f5e2.firebaseapp.com",
   projectId: "website-8f5e2",
@@ -1245,7 +1161,7 @@ const App = () => {
         setDb(firestoreDb);
         setAuth(firebaseAuth);
 
-        // This promise will resolve once onAuthStateChanged fires for the first time
+        // This promise will resolve once onAuthStateChanged fires for the first first time
         const authReadyPromise = new Promise(resolve => {
           const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
             setUserId(user?.uid || crypto.randomUUID());
@@ -1306,24 +1222,26 @@ const App = () => {
 
       <main className="min-h-screen pt-24">
         {firebaseInitialized ? (
-          (() => {
-            switch (currentPage) {
-              case 'home':
-                return <Hero setCurrentPage={setCurrentPage} />;
-              case 'about':
-                // Pass appIdFromConfig and userId to About component
-                return <About db={db} currentAppId={appIdFromConfig} userId={userId} />;
-              case 'skills':
-                return <Skills />;
-              case 'publications':
-                // Pass appIdFromConfig and userId to Publications component
-                return <Publications db={db} currentAppId={appIdFromConfig} userId={userId} />;
-              case 'contact':
-                return <Contact />;
-              default:
-                return <Hero setCurrentPage={setCurrentPage} />;
-            }
-          })()
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-400">Loading content...</div>}>
+            {(() => {
+              switch (currentPage) {
+                case 'home':
+                  return <Hero setCurrentPage={setCurrentPage} />;
+                case 'about':
+                  // Pass appIdFromConfig and userId to About component
+                  return <About db={db} currentAppId={appIdFromConfig} userId={userId} />;
+                case 'skills':
+                  return <Skills />;
+                case 'publications':
+                  // Pass appIdFromConfig and userId to Publications component
+                  return <Publications db={db} currentAppId={appIdFromConfig} userId={userId} />;
+                case 'contact':
+                  return <Contact />;
+                default:
+                  return <Hero setCurrentPage={setCurrentPage} />;
+              }
+            })()}
+          </Suspense>
         ) : (
           <div className="min-h-screen flex items-center justify-center text-gray-400">Initializing Firebase...</div>
         )}

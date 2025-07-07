@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/ChronoShindou07/Website.git",
+  "homepage": "https://ChronoShindou07.github.io/Website",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
