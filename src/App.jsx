@@ -1069,7 +1069,7 @@ const Footer = () => {
             <Linkedin className="w-7 h-7" />
           </a>
           {/* Discord Link - Verify this URL is active and does not expire */}
-          <a href="https://discord.gg/zADYUgB5" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+          <a href="https://discord.gg/zADYUgB5" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
             <Discord className="w-7 h-7" />
           </a>
           {/* Webnovel Link - Verify this URL is correct */}
@@ -1108,47 +1108,40 @@ const App = () => {
             console.log("Using Firebase config from __firebase_config global variable.");
           } catch (e) {
             console.error("Error parsing __firebase_config:", e);
-            // Fallback to placeholder if parsing fails
-       const firebaseConfig = {
-  apiKey: "AIzaSyC7WzyZ9GjVB7ckX4lv-r3GjAsfc9O3QQA",
-  authDomain: "website-8f5e2.firebaseapp.com",
-  projectId: "website-8f5e2",
-  storageBucket: "website-8f5e2.firebasestorage.app",
-  messagingSenderId: "902295170091",
-  appId: "1:902295170091:web:2c379c9f13ffc161728e6e"
-};
-            console.warn("Falling back to placeholder Firebase config. Please ensure __firebase_config is valid JSON.");
+            // Fallback to environment variables if parsing fails
+            firebaseConfig = {
+              apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+              authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+              projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+              storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+              messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+              appId: import.meta.env.VITE_FIREBASE_APP_ID
+            };
+            console.warn("Falling back to environment variables for Firebase config. Please ensure .env is set up.");
           }
         } else {
-          // If __firebase_config is not available, use the hardcoded placeholders.
-          // IMPORTANT: IF YOU ARE DEPLOYING THIS APP OUTSIDE OF THE CANVAS ENVIRONMENT,
-          // YOU MUST MANUALLY REPLACE THESE PLACEHOLDER VALUES WITH YOUR ACTUAL FIREBASE PROJECT CONFIGURATION.
-          // Go to your Firebase project settings -> "Your apps" -> Web app -> Config to find these values.
-    const firebaseConfig = {
-  apiKey: "AIzaSyC7WzyZ9GjVB7ckX4lv-r3GjAsfc9O3QQA",
-  authDomain: "website-8f5e2.firebaseapp.com",
-  projectId: "website-8f5e2",
-  storageBucket: "website-8f5e2.firebasestorage.app",
-  messagingSenderId: "902295170091",
-  appId: "1:902295170091:web:2c379c9f13ffc161728e6e"
-};
-          console.warn("The __firebase_config global variable was not found. Using hardcoded placeholder Firebase config. Please replace these values if deploying outside Canvas.");
+          // If __firebase_config is not available, use environment variables.
+          // IMPORTANT: You MUST set these in your local .env file and in your deployment environment.
+          firebaseConfig = {
+            apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+            authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+            projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+            storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+            appId: import.meta.env.VITE_FIREBASE_APP_ID
+          };
+          console.warn("The __firebase_config global variable was not found. Using environment variables for Firebase config.");
         }
 
-        // Log the config to console for debugging purposes
-        console.log("Firebase Config being used:", firebaseConfig);
-
-
-        if (!firebaseConfig || Object.keys(firebaseConfig).length === 0 || !firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
+        // Validate if API key is present from environment variables or direct config
+        if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_ACTUAL_FIREBASE_API_KEY" || firebaseConfig.apiKey === "YOUR_API_KEY") {
           console.error(
-            "CRITICAL ERROR: Firebase config is missing or incomplete, or still contains placeholder values. " +
-            "If you are running this outside the Canvas environment, you MUST manually update 'apiKey', 'authDomain', " +
-            "'projectId', 'storageBucket', 'messagingSenderId', and 'appId' in the 'firebaseConfig' object within the App.js file. " +
-            "Refer to your Firebase project settings -> 'Your apps' -> Web app -> Config for the correct values."
+            "CRITICAL ERROR: Firebase API Key is missing or still a placeholder. " +
+            "Please ensure you have created a '.env' file in your project root " +
+            "with VITE_FIREBASE_API_KEY set to your actual Firebase API key. " +
+            "Also, ensure '.env' is added to your '.gitignore' file."
           );
-          // Set initialized to true to allow the UI to render even if Firebase is not configured.
-          // This prevents the "Initializing Firebase..." message from sticking indefinitely.
-          setFirebaseInitialized(true);
+          setFirebaseInitialized(true); // Allow UI to render even if Firebase isn't fully configured
           return;
         }
 
