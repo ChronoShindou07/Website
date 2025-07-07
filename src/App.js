@@ -633,7 +633,7 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
               <Users className="w-7 h-7 mr-2 text-blue-400" /> Lab Affiliation
             </h3>
             <p className="text-lg text-gray-200 text-center font-inter">
-              I am currently a PhD researcher at the <span className="font-semibold text-blue-300">Advanced Materials Lab</span> at University Name.
+              I am currently a PhD researcher at the <span className="font-semibold text-blue-300">Extreme Environments Materials Lab</span> at IISc Bangalore.
               You can learn more about our research and projects here:
             </p>
             <div className="flex justify-center mt-4">
