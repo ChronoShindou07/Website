@@ -1351,25 +1351,25 @@ const App = () => {
   const [auth, setAuth] = useState(null);
   const [userId, setUserId] = useState(null);
   const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+  const [appIdFromConfig, setAppIdFromConfig] = useState(null);
 
   useEffect(() => {
     const initializeFirebase = async () => {
       try {
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC7WzyZ9GjVB7ckX4lv-r3GjAsfc9O3QQA",
-  authDomain: "website-8f5e2.firebaseapp.com",
-  projectId: "website-8f5e2",
-  storageBucket: "website-8f5e2.firebasestorage.app",
-  messagingSenderId: "902295170091",
-  appId: "1:902295170091:web:2c379c9f13ffc161728e6e"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
+
+setAppIdFromConfig(firebaseConfig.appId);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-        }
-
-        const app = initializeApp(firebaseConfig);
         const firestoreDb = getFirestore(app);
         const firebaseAuth = getAuth(app);
 
@@ -1414,13 +1414,13 @@ const app = initializeApp(firebaseConfig);
               case 'home':
                 return <Hero setCurrentPage={setCurrentPage} />;
               case 'about':
-                return <About db={db} appId={__app_id} />;
+                return <About db={db} appId={appIdFromConfig} />;
               case 'skills':
                 return <Skills />;
               // case 'projects': // Removed this case
               //   return <Projects db={db} appId={__app_id} />;
               case 'publications':
-                return <Publications db={db} appId={__app_id} />;
+                return <Publications db={db} appId={appIdFromConfig} />;
               case 'contact':
                 return <Contact />;
               default:

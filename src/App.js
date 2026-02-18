@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
-// Removed THREE and OrbitControls imports as simulation is no longer used
-// import * as THREE from 'three';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 // Firebase imports
 import { initializeApp } from 'firebase/app';
@@ -139,13 +136,6 @@ const Microscope = (props) => (
     <path d="M12 18a6 6 0 0 0 6-6V9a6 6 0 0 0-6-6Z"/>
   </svg>
 );
-
-
-// Lazy load components (COMMENTED OUT FOR COMPILATION FIX)
-// const About = lazy(() => import('./About'));
-// const Skills = lazy(() => import('./Skills'));
-// const Publications = lazy(() => import('./Publications'));
-// const Contact = lazy(() => import('./Contact'));
 
 
 // Animated Content Wrapper for entrance animations
@@ -296,8 +286,8 @@ const Hero = ({ setCurrentPage }) => {
     const autoCycleTimerRef = useRef(null); // Ref to hold the auto-cycle interval ID
 
     const heroImages = [
-      "https://d14k1d0ecj3g0p.cloudfront.net/wp-content/uploads/2021/06/IISc3-1.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/IISc_Materials_Engineering_dept.JPG/1200px-IISc_Materials_Engineering_dept.JPG?20090909040957",
+      "/images/background1.jpg", // Replace with your actual background image name
+      "/images/background2.jpg", // Replace with your actual background image name
     ];
 
     const startAutoCycle = useCallback(() => {
@@ -348,9 +338,6 @@ const Hero = ({ setCurrentPage }) => {
         <section id="hero" className="relative w-full min-h-screen bg-gray-950">
             {/* SECTION 1: Main Hero Content - This is where the background should be */}
             <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
-                {/* Removed MaterialSimulationBackground */}
-                {/* <MaterialSimulationBackground /> */}
-
                 {/* Image Carousel (full screen, behind content, spans this div) */}
                 <div className="absolute inset-0 z-0">
                     <ImageCarousel
@@ -473,10 +460,10 @@ const Hero = ({ setCurrentPage }) => {
                         <div className="flex flex-col md:flex-row items-center md:space-x-8">
                             <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
                                 <img
-                                    src="https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo" // Placeholder for your actual photo
+                                    src="/images/profile1.jpg" // Replace with your actual profile photo name
                                     alt="Your Photo"
                                     className="rounded-lg shadow-md w-full h-auto object-cover"
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"; }}
+                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
                                 />
                             </AnimatedContent>
                             <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 font-inter space-y-3">
@@ -582,10 +569,10 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
         <div className="flex flex-col md:flex-row items-center md:space-x-12">
           <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
             <img
-              src="https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"
+              src="/images/profile.jpg" // Replace with your actual profile photo name
               alt="About Me"
               className="rounded-xl shadow-lg w-full h-auto transform hover:scale-105 transition-transform duration-500"
-              onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"; }}
+              onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
             />
           </AnimatedContent>
           <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 space-y-4 font-inter">
@@ -1215,26 +1202,24 @@ const App = () => {
 
       <main className="min-h-screen pt-24">
         {firebaseInitialized ? (
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-400">Loading content...</div>}>
-            {(() => {
-              switch (currentPage) {
-                case 'home':
-                  return <Hero setCurrentPage={setCurrentPage} />;
-                case 'about':
-                  // Pass appIdFromConfig and userId to About component
-                  return <About db={db} currentAppId={appIdFromConfig} userId={userId} />;
-                case 'skills':
-                  return <Skills />;
-                case 'publications':
-                  // Pass appIdFromConfig and userId to Publications component
-                  return <Publications db={db} currentAppId={appIdFromConfig} userId={userId} />;
-                case 'contact':
-                  return <Contact />;
-                default:
-                  return <Hero setCurrentPage={setCurrentPage} />;
-              }
-            })()}
-          </Suspense>
+          (() => {
+            switch (currentPage) {
+              case 'home':
+                return <Hero setCurrentPage={setCurrentPage} />;
+              case 'about':
+                // Pass appIdFromConfig and userId to About component
+                return <About db={db} currentAppId={appIdFromConfig} userId={userId} />;
+              case 'skills':
+                return <Skills />;
+              case 'publications':
+                // Pass appIdFromConfig and userId to Publications component
+                return <Publications db={db} currentAppId={appIdFromConfig} userId={userId} />;
+              case 'contact':
+                return <Contact />;
+              default:
+                return <Hero setCurrentPage={setCurrentPage} />;
+            }
+          })()
         ) : (
           <div className="min-h-screen flex items-center justify-center text-gray-400">Initializing Firebase...</div>
         )}
