@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // Firebase imports
 import { initializeApp } from 'firebase/app';
@@ -136,6 +137,13 @@ const Microscope = (props) => (
     <path d="M12 18a6 6 0 0 0 6-6V9a6 6 0 0 0-6-6Z"/>
   </svg>
 );
+
+
+// Lazy load components (COMMENTED OUT FOR COMPILATION FIX)
+// const About = lazy(() => import('./About'));
+// const Skills = lazy(() => import('./Skills'));
+// const Publications = lazy(() => import('./Publications'));
+// const Contact = lazy(() => import('./Contact'));
 
 
 // Animated Content Wrapper for entrance animations
@@ -286,8 +294,8 @@ const Hero = ({ setCurrentPage }) => {
     const autoCycleTimerRef = useRef(null); // Ref to hold the auto-cycle interval ID
 
     const heroImages = [
-      "/images/background1.jpg", // Replace with your actual background image name
-      "/images/background2.jpg", // Replace with your actual background image name
+      "/images/background1.jpg",
+      "/images/background2.jpg",
     ];
 
     const startAutoCycle = useCallback(() => {
@@ -338,6 +346,9 @@ const Hero = ({ setCurrentPage }) => {
         <section id="hero" className="relative w-full min-h-screen bg-gray-950">
             {/* SECTION 1: Main Hero Content - This is where the background should be */}
             <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+                {/* Removed MaterialSimulationBackground */}
+                {/* <MaterialSimulationBackground /> */}
+
                 {/* Image Carousel (full screen, behind content, spans this div) */}
                 <div className="absolute inset-0 z-0">
                     <ImageCarousel
@@ -569,7 +580,7 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
         <div className="flex flex-col md:flex-row items-center md:space-x-12">
           <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
             <img
-              src="/images/profile.jpg" // Replace with your actual profile photo name
+              src="/images/profile.jpg"
               alt="About Me"
               className="rounded-xl shadow-lg w-full h-auto transform hover:scale-105 transition-transform duration-500"
               onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
@@ -1207,12 +1218,10 @@ const App = () => {
               case 'home':
                 return <Hero setCurrentPage={setCurrentPage} />;
               case 'about':
-                // Pass appIdFromConfig and userId to About component
                 return <About db={db} currentAppId={appIdFromConfig} userId={userId} />;
               case 'skills':
                 return <Skills />;
               case 'publications':
-                // Pass appIdFromConfig and userId to Publications component
                 return <Publications db={db} currentAppId={appIdFromConfig} userId={userId} />;
               case 'contact':
                 return <Contact />;

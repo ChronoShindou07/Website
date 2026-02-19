@@ -540,7 +540,7 @@ const Hero = ({ setCurrentPage }) => {
                         </AnimatedContent>
                         <AnimatedContent delay={300}>
                             <p className="text-xl md:text-2xl mb-8 font-inter text-gray-200">
-                                I am <span className="font-semibold text-white">Your Name</span>, passionate about developing and characterizing advanced materials for a sustainable future.
+                                I am <span className="font-semibold text-white">Golu Gehlot</span>, passionate about developing and characterizing advanced materials for a sustainable future.
                             </p>
                         </AnimatedContent>
                         <AnimatedContent delay={400}>
@@ -624,8 +624,8 @@ const Hero = ({ setCurrentPage }) => {
                         <div className="flex flex-col md:flex-row items-center md:space-x-8">
                             <AnimatedContent delay={200} className="md:w-1/2 mb-6 md:mb-0">
                                 <img
-                                    src="https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo" // Placeholder for your actual photo
-                                    alt="Your Photo"
+                                    src="/images/profile1.jpg" // Placeholder for your actual photo
+                                    alt="Golu Gehlot's profile photo"
                                     className="rounded-lg shadow-md w-full h-auto object-cover"
                                     onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo"; }}
                                 />
@@ -717,7 +717,7 @@ const About = ({ db, appId }) => {
           </AnimatedContent>
           <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 space-y-4 font-inter">
             <p>
-              Hello! I'm Your Name, a dedicated Materials Sciences Engineer with X years of experience
+              Hello! I'm Golu Gehlot, a dedicated Materials Sciences Engineer with X years of experience
               at the intersection of physics, chemistry, and engineering. My work focuses on understanding
               the fundamental properties of materials and designing novel ones for advanced applications.
             </p>
@@ -1319,7 +1319,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white py-8 px-6 text-center rounded-t-xl">
       <div className="container mx-auto">
         <p className="text-lg mb-4 font-inter">
-          &copy; {new Date().getFullYear()} Your Name. All rights reserved.
+          &copy; {new Date().getFullYear()} Golu Gehlot. All rights reserved.
         </p>
         <div className="flex justify-center space-x-6">
           <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">

@@ -296,8 +296,8 @@ const Hero = ({ setCurrentPage }) => {
     const autoCycleTimerRef = useRef(null); // Ref to hold the auto-cycle interval ID
 
     const heroImages = [
-      "https://d14k1d0ecj3g0p.cloudfront.net/wp-content/uploads/2021/06/IISc3-1.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/IISc_Materials_Engineering_dept.JPG/1200px-IISc_Materials_Engineering_dept.JPG?20090909040957",
+      "/images/background1.jpg",
+      "/images/background2.jpg",
     ];
 
     const startAutoCycle = useCallback(() => {
@@ -473,10 +473,10 @@ const Hero = ({ setCurrentPage }) => {
                         <div className="flex flex-col md:flex-row items-center md:space-x-8">
                             <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
                                 <img
-                                    src="https://placehold.co/400x300/334155/E2E8F0?text=Your+Photo" // Placeholder for your actual photo
-                                    alt="Your Photo"
+                                    src="/images/profile1.jpg" // Replace with your actual profile photo name
+                                    alt="Golu Gehlot's profile photo"
                                     className="rounded-lg shadow-md w-full h-auto object-cover"
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"; }}
+                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
                                 />
                             </AnimatedContent>
                             <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 font-inter space-y-3">
@@ -582,10 +582,10 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
         <div className="flex flex-col md:flex-row items-center md:space-x-12">
           <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
             <img
-              src="https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"
+              src="/images/profile.jpg"
               alt="About Me"
               className="rounded-xl shadow-lg w-full h-auto transform hover:scale-105 transition-transform duration-500"
-              onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Materials+Engineer"; }}
+              onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
             />
           </AnimatedContent>
           <AnimatedContent delay={300} className="md:w-1/2 text-lg text-gray-200 space-y-4 font-inter">
@@ -1059,7 +1059,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white py-8 px-6 text-center rounded-t-xl">
       <div className="container mx-auto">
         <p className="text-lg mb-4 font-inter">
-          &copy; {new Date().getFullYear()} Your Name. All rights reserved.
+          &copy; {new Date().getFullYear()} Golu Gehlot. All rights reserved.
         </p>
         <div className="flex justify-center space-x-6">
           <a href="https://github.com/ChronoShindou07" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
