@@ -294,8 +294,8 @@ const Hero = ({ setCurrentPage }) => {
     const autoCycleTimerRef = useRef(null); // Ref to hold the auto-cycle interval ID
 
     const heroImages = [
-      "/images/background1.jpg",
-      "/images/background2.jpg",
+      "/images/profile2.jpg",
+      "/images/profile3.jpg",
     ];
 
     const startAutoCycle = useCallback(() => {
@@ -472,7 +472,7 @@ const Hero = ({ setCurrentPage }) => {
                             <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
                                 <img
                                     src="/images/profile1.jpg" // Replace with your actual profile photo name
-                                    alt="Your Photo"
+                                    alt="Golu Gehlot's profile photo"
                                     className="rounded-lg shadow-md w-full h-auto object-cover"
                                     onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
                                 />
@@ -580,7 +580,7 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
         <div className="flex flex-col md:flex-row items-center md:space-x-12">
           <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
             <img
-              src="/images/profile.jpg"
+              src="/images/profile1.jpg"
               alt="About Me"
               className="rounded-xl shadow-lg w-full h-auto transform hover:scale-105 transition-transform duration-500"
               onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
@@ -1057,7 +1057,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white py-8 px-6 text-center rounded-t-xl">
       <div className="container mx-auto">
         <p className="text-lg mb-4 font-inter">
-          &copy; {new Date().getFullYear()} Your Name. All rights reserved.
+          &copy; {new Date().getFullYear()} Golu Gehlot. All rights reserved.
         </p>
         <div className="flex justify-center space-x-6">
           <a href="https://github.com/ChronoShindou07" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
