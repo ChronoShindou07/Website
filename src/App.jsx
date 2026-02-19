@@ -296,8 +296,8 @@ const Hero = ({ setCurrentPage }) => {
     const autoCycleTimerRef = useRef(null); // Ref to hold the auto-cycle interval ID
 
     const heroImages = [
-      "/images/background1.jpg",
-      "/images/background2.jpg",
+      "/images/profile2.jpg",
+      "/images/profile3.jpg",
     ];
 
     const startAutoCycle = useCallback(() => {
@@ -582,7 +582,7 @@ const About = ({ db, currentAppId, userId }) => { // Added userId prop
         <div className="flex flex-col md:flex-row items-center md:space-x-12">
           <AnimatedContent delay={200} className="md:w-1/2 mb-8 md:mb-0">
             <img
-              src="/images/profile.jpg"
+              src="/images/profile1.jpg"
               alt="About Me"
               className="rounded-xl shadow-lg w-full h-auto transform hover:scale-105 transition-transform duration-500"
               onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/400x300/334155/E2E8F0?text=Image+Not+Found"; }}
